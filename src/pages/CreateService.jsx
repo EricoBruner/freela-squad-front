@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
+import axios from "axios";
 
 export default function CreateService() {
+  const serverUrl = import.meta.env.VITE_API_URL;
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
@@ -11,8 +15,56 @@ export default function CreateService() {
   const [price, setPrice] = useState(0);
 
   function createService(e) {
+    const token = localStorage.getItem("token");
+
     e.preventDefault();
+
+    return console.log(price);
+
+    const service = {
+      title,
+      image,
+      available: true,
+      description,
+      paymentType,
+      price,
+    };
+
+    axios
+      .post(`${serverUrl}/services/create`, service, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((resp) => {
+        navigate("/home");
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+        console.log(error);
+      });
   }
+
+  const handleKeyDown = (e) => {
+    const keyCode = e.keyCode;
+
+    if (
+      (keyCode >= 48 && keyCode <= 57) ||
+      (keyCode >= 96 && keyCode <= 105) ||
+      keyCode === 8
+    ) {
+      if (keyCode === 8) {
+        const newValue = Math.floor(parseFloat(price) / 10);
+        setPrice(newValue.toFixed(2));
+      } else {
+        const digit = keyCode >= 96 ? keyCode - 96 : keyCode - 48;
+        const newValue = parseFloat(price) * 10 + digit / 100;
+        setPrice(newValue.toFixed(2));
+      }
+    } else {
+      e.preventDefault();
+    }
+  };
 
   return (
     <SCContainer>
@@ -65,10 +117,11 @@ export default function CreateService() {
           </label>
         </SCSelectButtons>
         <input
-          placeholder="preço"
-          type="number"
-          onChange={(e) => setPrice(e.target.value)}
-          required
+          type="text"
+          value={price == 0 ? null : price}
+          onKeyDown={handleKeyDown}
+          placeholder={"preço"}
+          readOnly
         />
 
         <SCButton type="submit">Criar</SCButton>
@@ -91,6 +144,7 @@ const SCContainer = styled.div`
   padding-right: 28px;
 
   form {
+    box-sizing: border-box;
     margin-top: 60px;
     position: relative;
     z-index: 1;
