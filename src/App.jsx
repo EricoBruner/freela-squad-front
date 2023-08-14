@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
 import CreateService from "./pages/CreateService";
 import ViewService from "./pages/ViewService";
+import MyServices from "./pages/MyServices";
 
 export default function AppRoutes() {
   const token = localStorage.getItem("token");
@@ -34,6 +35,7 @@ export default function AppRoutes() {
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/services/create" element={<CreateService />} />
+      <Route path="/services/me" element={<MyServices />} />
       <Route path="/services/:id" element={<ViewService />} />
     </Routes>
   );

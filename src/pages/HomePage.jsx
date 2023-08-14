@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Service from "../components/Service";
+import sadEmojeImage from "../assets/icon-sad.png";
 
 export default function HomePage() {
   const serverUrl = import.meta.env.VITE_API_URL;
@@ -31,6 +32,15 @@ export default function HomePage() {
 
       <h1>Recentes</h1>
 
+      {services.length == 0 && (
+        <>
+          <h2>Não há nenhum serviço cadastrado no momento!</h2>
+          <SCIcon>
+            <img src={sadEmojeImage} />
+          </SCIcon>
+        </>
+      )}
+
       <ScrollableContainer>
         <SCServicesContainer>
           {services.map((service) => (
@@ -47,7 +57,7 @@ export default function HomePage() {
 const SCContainer = styled.div`
   background-color: #0b0c0d;
   width: 100vw;
-  height: auto;
+  min-height: 100vh;
   box-sizing: border-box;
   padding-left: 28px;
   padding-right: 28px;
@@ -60,6 +70,15 @@ const SCContainer = styled.div`
     font-style: normal;
     font-weight: 600;
     color: white;
+  }
+
+  > h2 {
+    margin-top: 30px;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    color: #d3d3d3;
   }
 `;
 
@@ -84,6 +103,15 @@ const SCServicesContainer = styled.div`
   gap: 19px;
   position: relative;
   z-index: 1;
+`;
+
+const SCIcon = styled.div`
+  width: 100%;
+  display: flex;
+  margin-top: 30px;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
 `;
 
 const ScrollableContainer = styled.div`
