@@ -21,7 +21,7 @@ export default function SignInPage() {
       .then((resp) => {
         const token = "Bearer " + resp.data.token;
         localStorage.setItem("token", token);
-        localStorage.setItem("user", resp.data.user);
+        localStorage.setItem("userType", resp.data.userType);
         navigate("/home");
       })
       .catch((error) => {

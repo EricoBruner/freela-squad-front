@@ -17,14 +17,12 @@ export default function Header() {
 }
 
 const SCContainer = styled.div`
-  width: 100vw;
+  width: 100%;
   height: auto;
   display: flex;
   box-sizing: border-box;
   justify-content: space-between;
   padding-top: 44px;
-  padding-left: 27px;
-  padding-right: 27px;
 
   img {
     width: 178px;

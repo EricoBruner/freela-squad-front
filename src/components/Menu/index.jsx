@@ -3,6 +3,12 @@ import { HiMenu } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
 export default function Menu({ setOpenMenu }) {
+  const userType = localStorage.getItem("userType");
+
+  function Logoff() {
+    localStorage.clear();
+  }
+
   return (
     <>
       <SCContainer>
@@ -11,16 +17,22 @@ export default function Menu({ setOpenMenu }) {
           color="white"
           size={"24px"}
         />
-
         <nav>
-          <Link to={"/services/create"}>
-            <SCMenuItem>Criar Serviço</SCMenuItem>
-          </Link>
-          <Link to={"/services/me"}>
-            <SCMenuItem>Meus service</SCMenuItem>
+          {userType == "freelancer" && (
+            <>
+              <Link to={"/services/create"}>
+                <SCMenuItem>Criar serviço</SCMenuItem>
+              </Link>
+              <Link to={"/services/me"}>
+                <SCMenuItem>Meus serviços</SCMenuItem>
+              </Link>
+            </>
+          )}
+
+          <Link onClick={() => Logoff()} to={"/"}>
+            <SCExitMenuItem>Sair</SCExitMenuItem>
           </Link>
         </nav>
-
         <BallOfLight />
       </SCContainer>
       <SCCloseArea onClick={() => setOpenMenu(false)} />
@@ -66,6 +78,7 @@ const SCMenuItem = styled.a`
   font-family: "Inter";
   font-size: 18px;
   color: white;
+  font-weight: 500;
   cursor: pointer;
 `;
 
@@ -80,4 +93,14 @@ const BallOfLight = styled.div`
   top: 30%;
   left: 50%;
   transform: translate(-20%, -20%);
+`;
+
+const SCExitMenuItem = styled.a`
+  display: flex;
+  margin-top: 25px;
+  font-family: "Inter";
+  font-size: 18px;
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
 `;

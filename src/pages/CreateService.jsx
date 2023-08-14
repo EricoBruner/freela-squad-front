@@ -19,8 +19,6 @@ export default function CreateService() {
 
     e.preventDefault();
 
-    return console.log(price);
-
     const service = {
       title,
       image,

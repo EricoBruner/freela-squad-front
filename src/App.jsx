@@ -5,9 +5,11 @@ import SignInPage from "./pages/SignInPage";
 import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
 import CreateService from "./pages/CreateService";
+import ViewService from "./pages/ViewService";
 
 export default function AppRoutes() {
   const token = localStorage.getItem("token");
+  const userType = localStorage.getItem("userType");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,6 +20,12 @@ export default function AppRoutes() {
     if (!token) {
       return navigate("/");
     }
+
+    if (userType != "freelancer") {
+      if (userType != "customer") {
+        return navigate("/");
+      }
+    }
   }, [token, navigate]);
 
   return (
@@ -26,6 +34,7 @@ export default function AppRoutes() {
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/services/create" element={<CreateService />} />
+      <Route path="/services/:id" element={<ViewService />} />
     </Routes>
   );
 }
